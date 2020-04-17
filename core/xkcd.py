@@ -19,9 +19,7 @@ class Xkcd(commands.Cog):
         elif call.isdigit():
             comic = xkcd.getComic(call)
         else: 
-            await ctx.bot.say(\
-            ctx.message.channel,\
-            'Hmm... I can\'t find a comic with that parameter.')
+            await ctx.send('Hmm... I can\'t find a comic with that parameter.')
         ctitle = comic.getTitle()
         catext = comic.getAltText()
         curl = comic.getImageLink()
@@ -31,7 +29,7 @@ class Xkcd(commands.Cog):
         embed = discord.Embed(title=ctitle, description=catext)
         embed.set_image(url=curl)
         embed.set_footer(text='xkcd issue {}: {}'.format(cnumber, cimgn))
-        await ctx.bot.say(ctx.message.channel, embed=embed)
+        await ctx.send(embed=embed)
 
     @commands.command(pass_context=True)
     async def whatIf(self, ctx, call='random'):
@@ -43,7 +41,7 @@ class Xkcd(commands.Cog):
         elif call.isdigit():
             whif = xkcd.getWhatIf(call)
         else: 
-            await ctx.bot.say(\
+            await ctx.send(\
             ctx.message.channel,\
             'Hmm... I can\'t find a WhatIf with that parameter.')
         wtitle = whif.getTitle()
@@ -53,7 +51,7 @@ class Xkcd(commands.Cog):
         embed = discord.Embed(title=wtitle)
         embed.set_image(url=wurl)
         embed.set_footer(text='WhatIf issue {}'.format(wnumber))
-        await ctx.bot.say(ctx.message.channel, embed=embed)
+        await ctx.send(ctx.message.channel, embed=embed)
 
 def setup(bot):
     bot.add_cog(Xkcd(bot))

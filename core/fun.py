@@ -19,7 +19,7 @@ class Fun(commands.Cog):
                     embed = discord.Embed(colour=discord.Colour.dark_blue())
                     embed.set_image(url=imgurl)
                     embed.set_footer(text='http://inspirobot.me/')
-                    await ctx.bot.say(ctx.message.channel, embed=embed)
+                    await ctx.send(embed=embed)
 
     @commands.command(pass_context=True)
     async def flipcoin(self, ctx):
@@ -27,10 +27,10 @@ class Fun(commands.Cog):
         flip = random.choice([True, False])
         if flip == True:
             msg = 'It\'s heads!'
-            await ctx.bot.say(ctx.message.channel, msg)
+            await ctx.send(msg)
         elif flip == False:
             msg = 'It\'s tails!'
-            await ctx.bot.say(ctx.message.channel, msg)
+            await ctx.send(msg)
             
     @commands.command(pass_context=True)
     async def choose(self, ctx, *args):
@@ -39,23 +39,23 @@ class Fun(commands.Cog):
         for choice in args:
             choicelist.append(choice)
         result = random.choice(choicelist)
-        await ctx.bot.say(ctx.message.channel, "Like it or not, I choose {}!".format(result))
+        await ctx.send("Like it or not, I choose {}!".format(result))
             
     @commands.command(pass_context=True)
     async def deal(self, ctx):
         """A dank meme originally written by Dariusz."""
         frames = ['( •_•)', '( •_•)>⌐■-■', '(⌐■_■)', '(⌐■_■) Deal', '(⌐■_■) Deal with', '(⌐■_■) Deal with it.']
-        msg = await ctx.bot.say(ctx.message.channel, frames[0])
+        msg = await ctx.send(frames[0])
         for frame in frames[1:]:
-            await asyncio.sleep(1)
-            await ctx.bot.edit_message(msg, frame)
+            await asyncio.sleep(0.3)
+            await msg.edit(content = frame)
 
     @commands.command(pass_context=True)
     async def bother(self, ctx, user: discord.Member):
         """An abusive command to grab the attention of a user. Please deploy sparingly."""
         for i in range(5):
-            msg =  await ctx.bot.say(ctx.message.channel, user.mention)
-            await ctx.bot.delete_message(msg)
+            msg =  await ctx.send(user.mention)
+            await msg.delete()
 
     @commands.command(pass_context=True)
     async def mal(self,ctx):
@@ -63,11 +63,11 @@ class Fun(commands.Cog):
         anime = ctx.message.content[4:]
         response = requests.get("https://api.jikan.moe/v3/search/anime?q={}".format(anime))
         if response.status_code != 200:
-            await ctx.bot.say(ctx.message.channel, "Anime not found.")
+            await ctx.send("Anime not found.")
             return
         response = json.loads(response.content)
         url = response['results'][0]['url']
-        await ctx.bot.say(ctx.message.channel, url)
+        await ctx.send(url)
         return
 
 def setup(bot):
